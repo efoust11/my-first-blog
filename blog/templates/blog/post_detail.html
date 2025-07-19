@@ -7,9 +7,10 @@
                 <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
                     {% include './icons/pencil-fill.svg' %}
                 </a>
-                <a class="btn btn-secondary" href="{% url 'post_remove' pk=post.pk %}">
-                    {% include './icons/trash-fill.svg' %}
-                </a>
+            <form action="{% url 'post_remove' pk=post.pk %}" method="post">
+                {% csrf_token %} 
+                <button type="submit">Delete</button>
+            </form>
             {% endif %}
         </aside>
         {% if post.published_date %}
@@ -18,14 +19,21 @@
             </div>
 
             {% else %}
-            <aside class="actions">
-                <a class="btn btn-secondary" role="button" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
-            </aside>
+
+            <form action="{% url 'post_publish' pk=post.pk %}" method="post">
+                {% csrf_token %} 
+                <button type="submit">Publish</button>
+            </form>
+
+            
+
         {% endif %}
         <h2>{{ post.title }}</h2>
         <p>{{ post.text|linebreaksbr }}</p>
     </article>
 <hr>
+<a class="btn btn-secondary" role="button" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
 {% for comment in post.comments.all %}
     {% if user.is_authenticated or comment.approved_comment %}
     <div class="comment">

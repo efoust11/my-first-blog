@@ -15,7 +15,11 @@
                 {% include './icons/file-earmark-plus.svg' %}
             </a>
             <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-square.svg'%}</a>
-            <p id="logout" class="top-menu">Hello {{ user.username }} <small><a href="{% url 'logout' %}">(Log out)</a></small></p>
+            <p id="logout" class="top-menu">Hello {{ user.username }} 
+                <form action="{% url 'logout' %}" method="post">{% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </p>
             {% else %}
             <a href="{% url 'login' %}" class="top-menu">{% include './icons/lock-fill.svg' %}</a>
             {% endif %}
